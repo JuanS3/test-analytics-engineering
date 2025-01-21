@@ -1,0 +1,60 @@
+name: dbt Deploy
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  dbt-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: bank_marketing_project
+      GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+      DBT_PROJECT_DIR: bank_marketing_project
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install dbt-bigquery
+        pip install -r requirements.txt
+
+    - name: Set up Google Cloud credentials
+      run: |
+        echo "${{ secrets.GCP_CREDENTIALS }}" > ${{ github.workspace }}/gcp-credentials.json
+        export GOOGLE_APPLICATION_CREDENTIALS=${{ github.workspace }}/gcp-credentials.json
+
+    - name: Run dbt deps
+      working-directory: bank_marketing_project
+      run: dbt deps
+
+    - name: Run dbt compile
+      working-directory: bank_marketing_project
+      run: dbt compile
+
+    - name: Run dbt test
+      working-directory: bank_marketing_project
+      run: dbt test
+
+    - name: Run dbt build
+      working-directory: bank_marketing_project
+      run: dbt build
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: dbt-artifacts
+        path: bank_marketing_project/target/
