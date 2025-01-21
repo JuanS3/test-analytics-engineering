@@ -87,13 +87,13 @@ staging_bank_marketing as (
         *,
         -- Additional derived columns for analysis
         case
-            when term_deposit_subscription = 'yes' then 1
-            else 0
+            when term_deposit_subscription = 'yes' then TRUE
+            else FALSE
         end as is_converted,
 
         case
-            when previous_campaign_outcome = 'success' then 1
-            else 0
+            when previous_campaign_outcome = 'success' then TRUE
+            else FALSE
         end as previous_campaign_success
 
     from enhanced_data
