@@ -48,17 +48,17 @@ enhanced_data as (
 
         -- Create age groups
         case
-            when cast(age as int) < 25 then 'Young Adult'
-            when cast(age as int) between 25 and 40 then 'Adult'
-            when cast(age as int) between 41 and 60 then 'Middle-Aged'
+            when age < 25 then 'Young Adult'
+            when age between 25 and 40 then 'Adult'
+            when age between 41 and 60 then 'Middle-Aged'
             else 'Senior'
         end as age_group,
 
         -- Create income potential indicator
         case
-            when cast(balance as numeric) > 10000 then 'High'
-            when cast(balance as numeric) between 5000 and 10000 then 'Medium'
-            else 'Low'
+            when account_balance < 5000 then 'Low'
+            when account_balance between 5000 and 10000 then 'Medium'
+            when account_balance > 10000 then 'High'
         end as income_potential
 
         -- Create campaign success indicator
