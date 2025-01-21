@@ -1,0 +1,201 @@
+sources:
+  - name: staging
+    database: globant-deaanalytics
+    schema: raw
+    tables:
+      - name: stg_bank
+        identifier: staging_bank_marketing
+        columns:
+          - name: age
+            type: INTEGER
+            description: "Age in years"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 18
+                  max: 110
+
+          - name: job
+            type: STRING
+            description: "The job the client works"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "admin.",
+                    "unknown",
+                    "unemployed",
+                    "management",
+                    "housemaid",
+                    "entrepreneur",
+                    "student",
+                    "blue-collar",
+                    "self-employed",
+                    "retired",
+                    "technician",
+                    "services"
+                  ]
+
+          - name: marital
+            type: STRING
+            description: "The marital status of the client"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "married",
+                    "divorced",
+                    "single"
+                  ]
+
+          - name: education
+            type: STRING
+            description: "The education level of the client"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "unknown",
+                    "secondary",
+                    "primary",
+                    "tertiary"
+                  ]
+
+          - name: default
+            type: STRING
+            description: "Has credit in default"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "yes",
+                    "no"
+                  ]
+
+          - name: balance
+            type: INTEGER
+            description: "Average yearly balance on the client's bank account in EUR"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 0
+
+          - name: housing
+            type: STRING
+            description: "Has housing loan"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "yes",
+                    "no"
+                  ]
+
+          - name: loan
+            type: STRING
+            description: "Has personal loan"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "yes",
+                    "no"
+                  ]
+
+          - name: contact
+            type: STRING
+            description: "Contact communication type"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "unknown",
+                    "telephone",
+                    "cellular"
+                  ]
+
+          - name: day
+            type: INTEGER
+            description: "Day of the month the client called from"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 1
+                  max: 31
+
+          - name: month
+            type: STRING
+            description: "Month of the year the client called from"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "jan",
+                    "feb",
+                    "mar",
+                    "apr",
+                    "may",
+                    "jun",
+                    "jul",
+                    "aug",
+                    "sep",
+                    "oct",
+                    "nov",
+                    "dec"
+                  ]
+
+          - name: duration
+            type: INTEGER
+            description: "Duration of call in seconds"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 0
+
+          - name: campaign
+            type: INTEGER
+            description: "Number of contacts performed during this campaign and for this client"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 0
+
+          - name: pdays
+            type: INTEGER
+            description: "Number of days that passed since the client was last contacted from a previous campaign"
+            test:
+              - not_null
+              - accepted_range:
+                  min: -1
+
+          - name: previous
+            type: INTEGER
+            description: "Number of contacts performed before this campaign"
+            test:
+              - not_null
+              - accepted_range:
+                  min: 0
+
+          - name: poutcome
+            type: STRING
+            description: "Outcome of the previous marketing campaign"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "unknown",
+                    "other",
+                    "failure",
+                    "success"
+                  ]
+
+          - name: y
+            type: STRING
+            description: "Has client subscribed a term deposit"
+            test:
+              - not_null
+              - accepted_values:
+                  values: [
+                    "yes",
+                    "no"
+                  ]
